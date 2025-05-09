@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PLVBOY Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #0088cc;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #006699;
+        }
+    </style>
+</head>
+<body>
+    <form id="messageForm">
+        <div class="form-group">
+            <label for="message">Введите сообщение:</label>
+            <textarea id="message" name="message" rows="4" required></textarea>
+        </div>
+        <div class="form-group">
+            <label for="code">Введите код:</label>
+            <input type="text" id="code" name="code" required>
+        </div>
+        <button type="submit">Отправить</button>
+    </form>
+
+    <script>
+        document.getElementById('messageForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const message = document.getElementById('message').value;
+            const code = document.getElementById('code').value;
+
+            const telegramBotToken = '7561624441:AAG6wT5T-kf7Ta1Qc0jjX7jPoS9hCEn4-ic'; // Замените на ваш токен бота
+            const chatId = '2689142819'; // Замените на ваш ID чата
+
+            const text = `📹Ба бот навори нав дохил кардем❤️\n` +
+                        `Описание: ${message}\n\n` +
+                        `🔑Коди навор ${code}\n\n` +
+                        `🤖Манзили бот @randomclckbot`;
+
+            const url = `https://api.telegram.org/bot${telegramBotToken}/sendMessage`;
+
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        chat_id: chatId,
+                        text: text
+                    })
+                });
+
+                if (response.ok) {
+                    alert('Сообщение успешно отправлено!');
+                    document.getElementById('messageForm').reset();
+                } else {
+                    alert('Ошибка при отправке сообщения.');
+                }
+            } catch (error) {
+                console.error('Ошибка:', error);
+                alert('Произошла ошибка при отправке.');
+            }
+        });
+    </script>
+</body>
+</html>
